@@ -1,0 +1,25 @@
+MONGO DB
+
+from pymongo import MongoClient
+
+client = MongoClient('127.0.0.1')
+db = client['itau']
+'''
+#inserir o cliente ao banco
+#db.clientes.insert({"_id":1,"nome":"Fernando","saldo":1000000})
+
+#verificar se o cliente foi adicionado
+print(db.clientes.find())
+
+#mostrar na tela o cliente e o valor que tem 
+for cliente in db.clientes.find():
+    print ('Nome: %s \nSaldo: %s' %(cliente['nome'], cliente['saldo']))
+
+#adiciona 
+db.clientes.update({"_id":1}, {"$addToSet":{"extrato":{"operacao":"saque", "valor":50}}})
+
+#atualiza o valor de saque
+db.clientes.update({"_id":1,"extrato.valor":50},{"$set":{"extrato.$.valor":1000}})
+'''
+#excluir o saque
+db.clientes.update({"_id":1,"extrato.valor":1000}, {"$pull":{"extrato":{"valor":1000}}})
